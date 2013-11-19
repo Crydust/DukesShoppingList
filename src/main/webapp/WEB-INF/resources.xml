@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <Resource id="jdbc/DukesShoppingListDS" type="javax.sql.DataSource">
+        IgnoreDefaultValues true
+        JdbcDriver org.apache.derby.jdbc.ClientDriver
+        JdbcUrl jdbc:derby://localhost:1527/DukesShoppingListDB
+        UserName app
+        Password APP
+        JtaManaged true
+        jmxEnabled true
+    </Resource>
+</resources>
