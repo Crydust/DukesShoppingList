@@ -27,7 +27,8 @@ public class ShoppingListItem extends AbstractEntity {
         this.product = product;
     }
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
+    @JoinColumn
     private ShoppingList shoppingList;
 
     @Column

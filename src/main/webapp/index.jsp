@@ -12,6 +12,7 @@
         <h1>Hello World!</h1>
         <p><a href="<c:url value="/init" />">init</a></p>
         <p><a href="<c:url value="/shoppingListBrowser.jsf" />">shoppingListBrowser</a></p>
+        <p><a href="<c:url value="/family" />">family</a></p>
         
     </body>
 </html>

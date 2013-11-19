@@ -37,6 +37,6 @@ public class ShoppingList extends AbstractEntity {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "shoppingList", orphanRemoval = true, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "shoppingList", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ShoppingListItem> items;
 }
