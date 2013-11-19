@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>Facelet Title</title>
+    </head>
+    <body>
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="List"/></h1>
+                <h:dataTable value="#{shoppingListBacking.lists}" var="list">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Name"/>
+                        </f:facet>
+                        <h:dataTable value="#{shoppingListBacking.lists}" var="list">
+                            <f:facet name="caption">
+                                #{list.name}
+                            </f:facet>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Name"/>
+                                </f:facet>
+                                <h:outputText value="#{list.name}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Updated"/>
+                                </f:facet>
+                                <h:outputText value="#{list.updated}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </h:column>
+                        </h:dataTable>
+                        
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Updated"/>
+                        </f:facet>
+                        <h:outputText value="#{list.updated}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </f:view>
+
+    </body>
+</html>
+
