@@ -3,14 +3,11 @@
   <persistence-unit name="DukesShoppingListPU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>jdbc/DukesShoppingListDS</jta-data-source>
-    <!--<class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.AbstractEntity</class>-->
     <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product</class>
     <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType</class>
     <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Unit</class>
     <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ShoppingList</class>
     <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ShoppingListItem</class>
-    <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Parent</class>
-    <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Child</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>

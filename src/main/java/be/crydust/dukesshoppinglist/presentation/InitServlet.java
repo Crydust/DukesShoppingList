@@ -50,6 +50,13 @@ public class InitServlet extends HttpServlet {
         list.setItems(Arrays.asList(item));
         boundary.saveShoppingList(list);
         
+        boundary.saveShoppingList(new ShoppingList("list2", Arrays.asList(
+                new ShoppingListItem(list, "1", new Unit("x"), new Product("Chicken", new ProductType("Meat"))),
+                new ShoppingListItem(list, "25", new Unit("Kg"), new Product("Potatoes", new ProductType("Vegetables"))),
+                new ShoppingListItem(list, "2", new Unit("bottles"), new Product("Wine", new ProductType("Beverages"))),
+                new ShoppingListItem(list, "1", new Unit("loaf"), new Product("Bread", new ProductType("Other")))
+        )));
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */

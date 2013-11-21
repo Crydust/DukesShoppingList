@@ -5,6 +5,11 @@
       xmlns:f="http://java.sun.com/jsf/core">
     <head>
         <title>Facelet Title</title>
+        <style>
+            table, th, td {
+                border: 1px solid #999;
+            }
+        </style>
     </head>
     <body>
         <f:view>
@@ -15,34 +20,35 @@
                         <f:facet name="header">
                             <h:outputText value="Name"/>
                         </f:facet>
-                        <h:dataTable value="#{shoppingListBacking.lists}" var="list">
+                        <h:dataTable value="#{list.items}" var="item">
                             <f:facet name="caption">
                                 #{list.name}
                             </f:facet>
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Name"/>
+                                    <h:outputText value="Quantity"/>
                                 </f:facet>
-                                <h:outputText value="#{list.name}"/>
+                                <h:outputText value="#{item.quantity}"/>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Updated"/>
+                                    <h:outputText value="Unit"/>
                                 </f:facet>
-                                <h:outputText value="#{list.updated}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                                </h:outputText>
+                                <h:outputText value="#{item.unit.name}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Product"/>
+                                </f:facet>
+                                <h:outputText value="#{item.product.name}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Type"/>
+                                </f:facet>
+                                <h:outputText value="#{item.product.type.name}"/>
                             </h:column>
                         </h:dataTable>
-                        
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Updated"/>
-                        </f:facet>
-                        <h:outputText value="#{list.updated}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-                        </h:outputText>
                     </h:column>
                 </h:dataTable>
             </h:form>

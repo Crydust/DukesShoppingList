@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = ShoppingList.FIND_ALL, query = "SELECT s FROM ShoppingList s ORDER BY s.updated DESC"),
-    @NamedQuery(name = ShoppingList.FIND_NOTEMPTY, query = "SELECT s FROM ShoppingList s WHERE s.items IS NOT EMPTY ORDER BY s.updated DESC"),
     @NamedQuery(name = ShoppingList.DELETE_ALL, query = "DELETE FROM ShoppingList s")
 })
 @Getter
@@ -26,17 +24,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ShoppingList extends AbstractEntity {
 
-    public static final String FIND_ALL = "ShoppingList.findAll";
-    public static final String FIND_NOTEMPTY = "ShoppingList.findNotEmpty";
     public static final String DELETE_ALL = "ShoppingList.deleteAll";
 
     public ShoppingList(String name) {
         this.name = name;
     }
 
+    public ShoppingList(String name, List<ShoppingListItem> items) {
+        this.name = name;
+        this.items = items;
+        for (ShoppingListItem item : items) {
+            item.setShoppingList(this);
+        }
+    }
+
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "shoppingList", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shoppingList", cascade = CascadeType.ALL)
     private List<ShoppingListItem> items;
 }
