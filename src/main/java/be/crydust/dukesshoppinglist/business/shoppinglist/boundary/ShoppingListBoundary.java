@@ -1,9 +1,6 @@
 package be.crydust.dukesshoppinglist.business.shoppinglist.boundary;
 
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Child;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Parent;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ShoppingList;
-import java.util.Arrays;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,19 +30,12 @@ public class ShoppingListBoundary {
         em.createNamedQuery(ShoppingList.DELETE_ALL).executeUpdate();
     }
 
-    public void saveShoppingList(ShoppingList list) {
+    public ShoppingList saveShoppingList(ShoppingList list) {
         LOGGER.trace("saveShoppingList");
         em.persist(list);
+        em.flush();
+        em.refresh(list);
+        return list;
     }
-    
-    public void family(){
-        LOGGER.trace("family");
-        Parent p = new Parent();
-        p.setItems(Arrays.asList(new Child()));
-        LOGGER.trace("persist");
-        em.persist(p);
-        LOGGER.trace("remove");
-        em.remove(p);
-        LOGGER.trace("done");
-    }
+
 }
