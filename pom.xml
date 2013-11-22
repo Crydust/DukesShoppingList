@@ -120,7 +120,7 @@
                         <goals>
                             <goal>process</goal>
                         </goals>
-                        <phase>process-sources</phase>
+                        <phase>generate-sources</phase>
                         <configuration>
                             <processors>
                                 <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
