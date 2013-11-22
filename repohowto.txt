@@ -1,0 +1,15 @@
+http://stackoverflow.com/a/7623805/11451
+
+mvn install:install-file ^
+-DlocalRepositoryPath=repo ^
+-DcreateChecksum=true ^
+-Dpackaging=jar ^
+-Dfile=tomee-maven-plugin-1.5.2-KN1.jar ^
+-DgroupId=org.apache.openejb.maven ^
+-DartifactId=tomee-maven-plugin ^
+-Dversion=1.5.2-KN1
+
+<repository>
+    <id>repo</id>
+    <url>file://${project.basedir}/repo</url>
+</repository>

@@ -56,7 +56,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.5</version>
-            <optional>true</optional>
         </dependency>
         <!-- test -->
         <dependency>
@@ -92,6 +91,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -136,7 +136,66 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.apache.openejb.maven</groupId>
+                <artifactId>tomee-maven-plugin</artifactId>
+                <!-- version 1.5.2-KN1 includes TOMEE-1058: Expose configurable classpath parameter -->
+                <version>1.5.2-KN1</version>
+                <configuration>
+                    <tomeeVersion>1.5.2</tomeeVersion>
+                    <tomeeClassifier>webprofile</tomeeClassifier>
+                    <zip>false</zip>
+                    <removeTomeeWebapp>true</removeTomeeWebapp>
+                    <classpaths>
+                        <classpath>${project.build.directory}\apache-tomee\conf\logback-config</classpath>
+                        <classpath>${project.build.directory}\apache-tomee\lib\slf4j-api-1.7.5.jar</classpath>
+                        <classpath>${project.build.directory}\apache-tomee\lib\jul-to-slf4j-1.7.5.jar</classpath>
+                        <classpath>${project.build.directory}\apache-tomee\lib\jcl-over-slf4j-1.7.5.jar</classpath>
+                        <classpath>${project.build.directory}\apache-tomee\lib\logback-core-1.0.13.jar</classpath>
+                        <classpath>${project.build.directory}\apache-tomee\lib\logback-classic-1.0.13.jar</classpath>
+                    </classpaths>
+                    <systemVariables>
+                        <file.encoding>UTF-8</file.encoding>
+                        <org.apache.el.parser.COERCE_TO_ZERO>false</org.apache.el.parser.COERCE_TO_ZERO>
+                    </systemVariables>
+                    <libs>
+                        <!-- hibernate-jpa -->
+                        <lib>org.jboss.logging:jboss-logging:3.1.0.GA</lib>
+                        <lib>org.javassist:javassist:3.18.1-GA</lib>
+                        <lib>org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final</lib>
+                        <lib>org.hibernate:hibernate-core:4.2.7.SP1</lib>
+                        <lib>org.hibernate.common:hibernate-commons-annotations:4.0.2.Final</lib>
+                        <lib>dom4j:dom4j:1.6.1</lib>
+                        <lib>antlr:antlr:2.7.7</lib>
+                        <lib>org.hibernate:hibernate-entitymanager:4.2.7.SP1</lib>
+                        <!-- hibernate-validator -->
+                        <lib>org.hibernate:hibernate-validator:4.3.1.Final</lib>
+                        <!-- derbyclient -->
+                        <lib>org.apache.derby:derbyclient:10.10.1.1</lib>
+                        <!-- logging -->
+                        <lib>org.slf4j:slf4j-api:1.7.5</lib>
+                        <lib>org.slf4j:jcl-over-slf4j:1.7.5</lib>
+                        <lib>org.slf4j:jul-to-slf4j:1.7.5</lib>
+                        <lib>ch.qos.logback:logback-classic:1.0.13</lib>
+                        <lib>ch.qos.logback:logback-core:1.0.13</lib>
+                        <!-- remove unused -->
+                        <lib>remove:bval-core</lib>
+                        <lib>remove:bval-jsr303</lib>
+                        <lib>remove:commons-lang-2.6</lib>
+                        <lib>remove:commons-logging</lib>
+                        <lib>remove:serp-</lib>
+                        <lib>remove:openjpa-</lib>
+                        <lib>remove:slf4j-jdk14</lib>
+                        <lib>remove:slf4j-api-1.7.2</lib>
+                    </libs>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <repository>
+            <id>repo</id>
+            <url>file://${project.basedir}/repo</url>
+        </repository>
+    </repositories>
 </project>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" debug="true">  
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
+            <pattern>%-4relative %1.-1level %-20.20logger{20} | %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--<appender name="LOGFILE" class="ch.qos.logback.core.FileAppender">
+        <file>${catalina.base}/logs/tomcat.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>-->
+
+    <logger name="be" level="ALL" />
+    <logger name="org.hibernate" level="INFO" />
+    <logger name="org.hibernate.SQL" level="DEBUG" />
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
+    <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="DEBUG" />
+    
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <!--<appender-ref ref="LOGFILE" />-->
+    </root>
+
+</configuration>  
