@@ -14,6 +14,17 @@
     </properties>
 
     <dependencies>
+        <!-- tomee plugin -->
+        <!--
+        <dependency>
+            <groupId>org.apache.openejb.maven</groupId>
+            <artifactId>tomee-maven-plugin</artifactId>
+            <version>1.5.2-KN1</version>
+            <type>maven-plugin</type>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/tomee-maven-plugin-1.5.2-KN1.jar</systemPath>
+        </dependency>
+        -->
         <!-- tomee -->
         <dependency>
             <groupId>org.apache.openejb</groupId>
@@ -142,17 +153,18 @@
                 <!-- version 1.5.2-KN1 includes TOMEE-1058: Expose configurable classpath parameter -->
                 <version>1.5.2-KN1</version>
                 <configuration>
+                    <goalPrefix>tomee</goalPrefix>
                     <tomeeVersion>1.5.2</tomeeVersion>
                     <tomeeClassifier>webprofile</tomeeClassifier>
                     <zip>false</zip>
                     <removeTomeeWebapp>true</removeTomeeWebapp>
                     <classpaths>
-                        <classpath>${project.build.directory}\apache-tomee\conf\logback-config</classpath>
-                        <classpath>${project.build.directory}\apache-tomee\lib\slf4j-api-1.7.5.jar</classpath>
-                        <classpath>${project.build.directory}\apache-tomee\lib\jul-to-slf4j-1.7.5.jar</classpath>
-                        <classpath>${project.build.directory}\apache-tomee\lib\jcl-over-slf4j-1.7.5.jar</classpath>
-                        <classpath>${project.build.directory}\apache-tomee\lib\logback-core-1.0.13.jar</classpath>
-                        <classpath>${project.build.directory}\apache-tomee\lib\logback-classic-1.0.13.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/conf/logback-config</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/slf4j-api-1.7.5.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/jul-to-slf4j-1.7.5.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/jcl-over-slf4j-1.7.5.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/logback-core-1.0.13.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/logback-classic-1.0.13.jar</classpath>
                     </classpaths>
                     <systemVariables>
                         <file.encoding>UTF-8</file.encoding>

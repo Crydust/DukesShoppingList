@@ -1,15 +1,9 @@
-http://stackoverflow.com/a/7623805/11451
+http://stackoverflow.com/questions/364114/can-i-add-jars-to-maven-2-build-classpath-without-installing-them
+https://devcenter.heroku.com/articles/local-maven-dependencies
 
-mvn install:install-file ^
--DlocalRepositoryPath=repo ^
--DcreateChecksum=true ^
--Dpackaging=jar ^
--Dfile=tomee-maven-plugin-1.5.2-KN1.jar ^
--DgroupId=org.apache.openejb.maven ^
--DartifactId=tomee-maven-plugin ^
--Dversion=1.5.2-KN1
+mvn install:install-file -DlocalRepositoryPath=repo -DcreateChecksum=true -Dpackaging=maven-plugin -Dfile=tomee-maven-plugin-1.5.2-KN1.jar -DgroupId=org.apache.openejb.maven -DartifactId=tomee-maven-plugin -Dversion=1.5.2-KN1 -DpomFile=tomee-maven-plugin-1.5.2-KN1.pom
 
 <repository>
     <id>repo</id>
     <url>file://${project.basedir}/repo</url>
-</repository>
+</repository>	
