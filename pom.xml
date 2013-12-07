@@ -14,17 +14,6 @@
     </properties>
 
     <dependencies>
-        <!-- tomee plugin -->
-        <!--
-        <dependency>
-            <groupId>org.apache.openejb.maven</groupId>
-            <artifactId>tomee-maven-plugin</artifactId>
-            <version>1.5.2-KN1</version>
-            <type>maven-plugin</type>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/tomee-maven-plugin-1.5.2-KN1.jar</systemPath>
-        </dependency>
-        -->
         <!-- tomee -->
         <dependency>
             <groupId>org.apache.openejb</groupId>
@@ -210,4 +199,10 @@
             <url>file://${project.basedir}/repo</url>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo</id>
+            <url>file://${project.basedir}/repo</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
