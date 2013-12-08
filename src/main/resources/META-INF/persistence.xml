@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-  <persistence-unit name="DukesShoppingListPU" transaction-type="JTA">
-    <!--<provider>org.hibernate.ejb.HibernatePersistence</provider>-->
-    <jta-data-source>jdbc/DukesShoppingListDS</jta-data-source>
-    <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product</class>
-    <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType</class>
-    <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Unit</class>
-    <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ShoppingListItem</class>
-    <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ItemList</class>
-    <!--<exclude-unlisted-classes>false</exclude-unlisted-classes>-->
-    <!--<shared-cache-mode>NONE</shared-cache-mode>-->
-<!--    <properties>
-      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect"/>
-      <property name="hibernate.show_sql" value="false"/>
-      <property name="hibernate.format_sql" value="true"/>
-      <property name="hibernate.generate_statistics" value="true"/>
-      <property name="hibernate.cache.use_second_level_cache" value="false"/>
-      <property name="hibernate.cache.use_structured_entries" value="false"/>
-      <property name="hibernate.cache.use_query_cache" value="false"/>
-      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-    </properties>-->
-  </persistence-unit>
+    <persistence-unit name="DukesShoppingListPU" transaction-type="JTA">
+        <jta-data-source>jdbc/DukesShoppingListDS</jta-data-source>
+        <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Category</class>
+        <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Item</class>
+        <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ItemList</class>
+        <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ListView</class>
+        <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product</class>
+        <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType</class>
+        <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Unit</class>
+        <properties>
+            <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(foreignKeys=true,schemaAction='dropDB,add')"/>
+            <property name="openjpa.jdbc.SchemaFactory" value="native(foreignKeys=true)" />
+            <property name="openjpa.jdbc.MappingDefaults" value="ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict"/>
+            <!--<property name="openjpa.Log" value="DefaultLevel=TRACE,SQL=TRACE" />-->
+            <!--<property name="openjpa.Log" value="SQL=TRACE" />-->
+            <property name="openjpa.Log" value="slf4j"/>
+
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
+    </persistence-unit>
 </persistence>
