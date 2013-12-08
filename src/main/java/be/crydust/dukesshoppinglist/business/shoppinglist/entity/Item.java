@@ -18,19 +18,18 @@ import lombok.Setter;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = ShoppingListItem.DELETE_ALL, query = "DELETE FROM ShoppingListItem i"),
-    @NamedQuery(name = ShoppingListItem.DELETE_BY_SHOPPINGLIST, query = "DELETE FROM ShoppingListItem i WHERE i.shoppingList = :shoppingList")
+    @NamedQuery(name = Item.DELETE_ALL, query = "DELETE FROM Item i"),
+    @NamedQuery(name = Item.DELETE_BY_ITEMLIST, query = "DELETE FROM Item i WHERE i.itemList = :itemList")
 })
 @Getter
 @Setter
 @NoArgsConstructor
-public class ShoppingListItem extends AbstractEntity {
+public class Item extends AbstractEntity {
 
-    public static final String DELETE_ALL = "ShoppingListItem.deleteAll";
-    public static final String DELETE_BY_SHOPPINGLIST = "ShoppingListItem.deleteByShoppingList";
+    public static final String DELETE_ALL = "Item.deleteAll";
+    public static final String DELETE_BY_ITEMLIST = "Item.deleteByItemList";
 
-    public ShoppingListItem(ShoppingList shoppingList, String quantity, Unit unit, Product product) {
-        this.shoppingList = shoppingList;
+    public Item(String quantity, Unit unit, Product product) {
         this.quantity = quantity;
         this.unit = unit;
         this.product = product;
@@ -38,7 +37,7 @@ public class ShoppingListItem extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn
-    private ShoppingList shoppingList;
+    private ItemList itemList;
 
     @Column
     private String quantity;

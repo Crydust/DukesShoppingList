@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-tomee:start</actionName>
+            <displayName>tomee:start</displayName>
+            <goals>
+                <goal>compile</goal>
+                <goal>tomee:start</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-tomee:stop</actionName>
+            <displayName>tomee:stop</displayName>
+            <goals>
+                <goal>tomee:stop</goal>
+            </goals>
+        </action>
+    </actions>

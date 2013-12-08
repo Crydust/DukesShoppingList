@@ -1,12 +1,12 @@
 package be.crydust.dukesshoppinglist.business.shoppinglist.boundary;
 
+import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Item;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product_;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ShoppingList;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ShoppingListItem;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ShoppingListItem_;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ShoppingList_;
+import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ItemList;
+import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ItemList_;
+import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Item_;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Unit;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -33,21 +33,21 @@ public class ShoppingListBoundary {
     @PersistenceContext
     EntityManager em;
 
-    public List<ShoppingList> findAllShoppingLists() {
-        LOGGER.trace("findAllShoppingLists");
+    public List<ItemList> findAllItemLists() {
+        LOGGER.trace("findAllItemLists");
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<ShoppingList> cq = cb.createQuery(ShoppingList.class);
-        Root<ShoppingList> shoppingListRoot = cq.from(ShoppingList.class);
+        CriteriaQuery<ItemList> cq = cb.createQuery(ItemList.class);
+        Root<ItemList> shoppingListRoot = cq.from(ItemList.class);
         // select
         cq.distinct(true);
         cq.select(shoppingListRoot);
         // join
-        Fetch<ShoppingList, ShoppingListItem> shoppingListItemPath =
-                shoppingListRoot.fetch(ShoppingList_.items, JoinType.INNER);
-        Fetch<ShoppingListItem, Product> productPath =
-                shoppingListItemPath.fetch(ShoppingListItem_.product, JoinType.INNER);
-        Fetch<ShoppingListItem, Unit> unitPath =
-                shoppingListItemPath.fetch(ShoppingListItem_.unit, JoinType.INNER);
+        Fetch<ItemList, Item> shoppingListItemPath =
+                shoppingListRoot.fetch(ItemList_.items, JoinType.INNER);
+        Fetch<Item, Product> productPath =
+                shoppingListItemPath.fetch(Item_.product, JoinType.INNER);
+        Fetch<Item, Unit> unitPath =
+                shoppingListItemPath.fetch(Item_.unit, JoinType.INNER);
         Fetch<Product, ProductType> productTypePath =
                 productPath.fetch(Product_.type, JoinType.INNER);
         //where
@@ -55,22 +55,22 @@ public class ShoppingListBoundary {
 //        predicate.getExpressions().addAll(customerFilterUtil.convertCustomerToExpressions(cb, customerRoot, filter));
 //        cq.where(predicate);
         // limit
-        TypedQuery<ShoppingList> q = em.createQuery(cq);
+        TypedQuery<ItemList> q = em.createQuery(cq);
         return q.getResultList();
-//        return em.createNamedQuery(ShoppingList.FIND_ALL).getResultList();
+//        return em.createNamedQuery(ItemList.FIND_ALL).getResultList();
     }
 
-    public void deleteAllShoppingLists() {
-        LOGGER.trace("deleteAllShoppingLists");
-        em.createNamedQuery(ShoppingListItem.DELETE_ALL).executeUpdate();
-        em.createNamedQuery(ShoppingList.DELETE_ALL).executeUpdate();
+    public void deleteAllItemLists() {
+        LOGGER.trace("deleteAllItemLists");
+        em.createNamedQuery(Item.DELETE_ALL).executeUpdate();
+        em.createNamedQuery(ItemList.DELETE_ALL).executeUpdate();
         em.createNamedQuery(Product.DELETE_ALL).executeUpdate();
         em.createNamedQuery(Unit.DELETE_ALL).executeUpdate();
         em.createNamedQuery(ProductType.DELETE_ALL).executeUpdate();
     }
 
-    public ShoppingList saveShoppingList(ShoppingList list) {
-        LOGGER.trace("saveShoppingList");
+    public ItemList saveItemList(ItemList list) {
+        LOGGER.trace("saveItemList");
         em.persist(list);
         em.flush();
         em.refresh(list);
