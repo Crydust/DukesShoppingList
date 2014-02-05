@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <f:metadata>
+        <f:viewParam name="list"
+                     value="#{itemListBacking.currentItemList}"
+                     converter="#{itemListConverter}"/>
+        <f:event type="preRenderView" listener="#{itemListBacking.init()}" />
+    </f:metadata>
+    <h:head>
+        <meta charset="UTF-8" />
+        <title>DukesShoppingList</title>
+
+    </h:head>
+    <h:body>
+        <h1>DukesShoppingList</h1>
+        
+        <h:form>
+            <p>
+                <h:selectOneMenu value="#{itemListBacking.currentItemList}"
+                                 converter="#{itemListConverter}">
+                    <f:selectItem itemValue="#{null}" itemLabel=""/>
+                    <f:selectItems value="#{itemListBacking.itemLists}"
+                                   var="itemList"
+                                   itemValue="#{itemList}"
+                                   itemLabel="#{itemList.name}"/>
+                </h:selectOneMenu>
+                <h:commandButton action="#{itemListBacking.navigateWithViewParams()}"
+                                 value="Choose list">
+                </h:commandButton>
+            </p>
+            <h:panelGroup rendered="#{not empty itemListBacking.currentItemList}">
+                <p>
+                    <h:inputText id="quantity" label="quantity" value="#{itemListBacking.currentItem.quantity}" />
+                    <h:selectOneMenu value="#{itemListBacking.currentItem.unit}"
+                                     converter="#{unitConverter}">
+                        <f:selectItems value="#{itemListBacking.unitSelectItems}"
+                                       var="unitSelectItem"
+                                       itemValue="#{unitSelectItem}"
+                                       itemLabel="#{unitSelectItem.name}"/>
+                    </h:selectOneMenu>
+                    <h:selectOneMenu value="#{itemListBacking.currentItem.product}"
+                                     converter="#{productConverter}">
+                        <f:selectItems value="#{itemListBacking.productSelectItems}"
+                                       var="productSelectItem"
+                                       itemValue="#{productSelectItem}"
+                                       itemLabel="#{productSelectItem.name}"/>
+                    </h:selectOneMenu>
+                    <h:commandButton action="#{itemListBacking.create()}"
+                                     value="Add item to list" />
+                </p>
+            </h:panelGroup>
+
+        </h:form>
+    </h:body>
+</html>

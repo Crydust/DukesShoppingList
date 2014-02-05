@@ -1,6 +1,6 @@
 package be.crydust.dukesshoppinglist.presentation;
 
-import be.crydust.dukesshoppinglist.business.shoppinglist.boundary.ShoppingListBoundary;
+import be.crydust.dukesshoppinglist.business.shoppinglist.boundary.ItemListBoundary;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Item;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ItemList;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product;
@@ -9,28 +9,28 @@ import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Unit;
 import java.util.Arrays;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 
 /**
  *
  * @author kristof
  */
-@javax.ejb.Singleton
-@javax.ejb.Startup
+@Singleton
+@Startup
+@Slf4j
 public class StartupService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StartupService.class);
-
     @Inject
-    ShoppingListBoundary boundary;
+    ItemListBoundary itemListboundary;
 
     @PostConstruct
     public void onStartup() {
 
-        LOGGER.trace("StartupService.onStartup");
+        log.trace("StartupService.onStartup");
 
-        boundary.deleteAllItemLists();
+        itemListboundary.deleteAllItemLists();
         ItemList list = new ItemList("list");
         ProductType type = new ProductType("type");
         Product product = new Product("product", type);
@@ -38,9 +38,9 @@ public class StartupService {
         Item item = new Item("5", unit, product);
         list.setItems(Arrays.asList(item));
         item.setItemList(list);
-        boundary.saveItemList(list);
+        itemListboundary.saveItemList(list);
 
-        boundary.saveItemList(ItemList.createItemList("list2", Arrays.asList(
+        itemListboundary.saveItemList(ItemList.createItemList("list2", Arrays.asList(
                 new Item("1", new Unit("x"), new Product("Chicken", new ProductType("Meat"))),
                 new Item("25", new Unit("Kg"), new Product("Potatoes", new ProductType("Vegetables"))),
                 new Item("2", new Unit("bottles"), new Product("Wine", new ProductType("Beverages"))),

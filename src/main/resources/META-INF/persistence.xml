@@ -10,7 +10,8 @@
         <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType</class>
         <class>be.crydust.dukesshoppinglist.business.shoppinglist.entity.Unit</class>
         <properties>
-            <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(foreignKeys=true,schemaAction='dropDB,add')"/>
+            <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+            <!--<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(foreignKeys=true,schemaAction='dropDB,add')"/>-->
             <property name="openjpa.jdbc.SchemaFactory" value="native(foreignKeys=true)" />
             <property name="openjpa.jdbc.MappingDefaults" value="ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict"/>
             <!--<property name="openjpa.Log" value="DefaultLevel=TRACE,SQL=TRACE" />-->
@@ -18,7 +19,7 @@
             <property name="openjpa.Log" value="slf4j"/>
 
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect"/>
+            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect"/>-->
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
