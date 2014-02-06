@@ -11,6 +11,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -18,6 +19,7 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
+@Slf4j
 public class ItemListBacking {
 
     // Properties

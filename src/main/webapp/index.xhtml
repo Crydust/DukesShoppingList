@@ -15,7 +15,7 @@
     </h:head>
     <h:body>
         <h1>DukesShoppingList</h1>
-        
+
         <h:form>
             <p>
                 <h:selectOneMenu value="#{itemListBacking.currentItemList}"
@@ -50,6 +50,34 @@
                     <h:commandButton action="#{itemListBacking.create()}"
                                      value="Add item to list" />
                 </p>
+
+                <h:dataTable value="#{itemListBacking.currentItemList.items}" var="item">
+                    <f:facet name="caption">#{itemListBacking.currentItemList.name}</f:facet>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Quantity"/>
+                        </f:facet>
+                        <h:outputText value="#{item.quantity}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Unit"/>
+                        </f:facet>
+                        <h:outputText value="#{item.unit.name}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Product"/>
+                        </f:facet>
+                        <h:outputText value="#{item.product.name}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Type"/>
+                        </f:facet>
+                        <h:outputText value="#{item.product.type.name}"/>
+                    </h:column>
+                </h:dataTable>
             </h:panelGroup>
 
         </h:form>

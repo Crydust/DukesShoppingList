@@ -68,7 +68,9 @@ public class ItemListBoundary implements Serializable {
 
     public ItemList findItemListById(Long id) {
         log.trace("findItemListById");
-        return em.getReference(ItemList.class, id);
+        // getReference doesnt retrieve items
+        //return em.getReference(ItemList.class, id);
+        return em.find(ItemList.class, id);
     }
 
 }
