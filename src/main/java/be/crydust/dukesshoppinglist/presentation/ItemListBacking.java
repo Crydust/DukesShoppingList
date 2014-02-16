@@ -54,12 +54,20 @@ public class ItemListBacking implements Serializable {
     // Actions
     public String navigateWithViewParams() {
         return "index?faces-redirect=true&amp;includeViewParams=true";
-        // NOOP
     }
 
-    public void addItem() {
+    public String addItem() {
         currentItemList = itemListBoundary.addItemToList(currentItemList, currentItem);
         currentItem = new Item();
+        currentItem.setQuantity("1");
+        return navigateWithViewParams();
+    }
+
+    public String removeItem(Item item) {
+        currentItemList = itemListBoundary.removeItemFromList(currentItemList, item);
+        currentItem = new Item();
+        currentItem.setQuantity("1");
+        return navigateWithViewParams();
     }
 
     // Getters/setters
@@ -81,6 +89,7 @@ public class ItemListBacking implements Serializable {
     public Item getCurrentItem() {
         if (currentItem == null) {
             currentItem = new Item();
+            currentItem.setQuantity("1");
         }
         return currentItem;
     }

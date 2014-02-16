@@ -15,6 +15,11 @@
         <style>
             body {
                 font-family: sans-serif;
+                font-size: 80%;
+            }
+            .input-quantity {
+                text-align: right;
+                width: 5em;
             }
             .td-quantity, .td-unit {
                 text-align: right;
@@ -34,7 +39,9 @@
             </ui:repeat>
 
             <p>
-                <h:inputText id="quantity" label="quantity" value="#{itemListBacking.currentItem.quantity}" />
+                <h:inputText id="quantity" label="quantity" value="#{itemListBacking.currentItem.quantity}" class="input-quantity">
+                    <f:attribute name="type" value="number"/>
+                </h:inputText>
                 <h:selectOneMenu id="unit"
                                  value="#{itemListBacking.currentItem.unit}"
                                  converter="#{unitConverter}">
@@ -50,10 +57,11 @@
                 </h:selectOneMenu>
                 <h:commandButton id="addItem"
                                  action="#{itemListBacking.addItem()}"
-                                 value="Add item to list" />
+                                 value="Add item to list"
+                                 disabled="#{empty itemListBacking.currentItemList}"/>
             </p>
 
-            <h:dataTable value="#{itemListBacking.currentItemList.items}" var="item" columnClasses="td-quantity,td-unit,td-product,td-type">
+            <h:dataTable id="dataTable" value="#{itemListBacking.currentItemList.items}" var="item" columnClasses="td-quantity,td-unit,td-product,td-type">
                 <f:facet name="caption">#{itemListBacking.currentItemList.name}</f:facet>
                 <h:column>
                     <f:facet name="header">
@@ -78,6 +86,14 @@
                         <h:outputText value="Type"/>
                     </f:facet>
                     <h:outputText value="#{item.product.type.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Action"/>
+                    </f:facet>
+                    <h:commandButton id="removeItem"
+                                     action="#{itemListBacking.removeItem(item)}"
+                                     value="Remove" />
                 </h:column>
             </h:dataTable>
 
