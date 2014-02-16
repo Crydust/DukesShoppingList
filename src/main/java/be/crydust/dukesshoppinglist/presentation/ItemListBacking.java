@@ -6,9 +6,16 @@ import be.crydust.dukesshoppinglist.business.shoppinglist.boundary.UnitBoundary;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Item;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ItemList;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product;
+import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Unit;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
+import java.util.Map;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.extern.slf4j.Slf4j;
@@ -18,18 +25,19 @@ import lombok.extern.slf4j.Slf4j;
  * @author kristof
  */
 @Named
-@RequestScoped
+@SessionScoped
 @Slf4j
-public class ItemListBacking {
+public class ItemListBacking implements Serializable {
 
     // Properties
     List<ItemList> itemLists = null;
     List<Unit> units = null;
     List<Product> products = null;
+    List<SelectItem> productSelectItems = null;
 
     ItemList currentItemList = null;
     Item currentItem = null;
- 
+
     // Services
     @Inject
     ItemListBoundary itemListBoundary;
@@ -64,7 +72,7 @@ public class ItemListBacking {
         }
         return itemLists;
     }
-    
+
     public ItemList getCurrentItemList() {
         return currentItemList;
     }
@@ -86,16 +94,34 @@ public class ItemListBacking {
 
     public List<Unit> getUnitSelectItems() {
         if (units == null) {
-            units = unitBoundary.findAllUnits();
+            units = unitBoundary.findAll();
         }
         return units;
     }
 
-    public List<Product> getProductSelectItems() {
+    public List<SelectItem> getProductSelectItems() {
         if (products == null) {
-            products = productBoundary.findAllProducts();
+            products = productBoundary.findAllOrderedByProductType();
         }
-        return products;
+        if (productSelectItems == null) {
+            ProductType productType = null;
+            List<SelectItem> selectItems = new ArrayList<>();
+            Map<String, List<SelectItem>> map = new LinkedHashMap<>();
+            for (Product product : products) {
+                if (!product.getType().equals(productType)) {
+                    productType = product.getType();
+                    selectItems = new ArrayList<>();
+                    map.put(productType.getName(), selectItems);
+                }
+                selectItems.add(new SelectItem(product, product.getName()));
+            }
+            productSelectItems = new ArrayList<>();
+            for (Map.Entry<String, List<SelectItem>> entry : map.entrySet()) {
+                SelectItemGroup selectItemGroup = new SelectItemGroup(entry.getKey());
+                selectItemGroup.setSelectItems(entry.getValue().toArray(new SelectItem[0]));
+                productSelectItems.add(selectItemGroup);
+            }
+        }
+        return productSelectItems;
     }
-
 }

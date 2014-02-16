@@ -29,7 +29,7 @@ public class UnitConverter implements Converter {
             return null;
         }
         try {
-            return unitBoundary.findUnitById(Long.valueOf(string));
+            return unitBoundary.findById(Long.valueOf(string));
         } catch (NumberFormatException ex) {
             throw new ConverterException(ex);
         }

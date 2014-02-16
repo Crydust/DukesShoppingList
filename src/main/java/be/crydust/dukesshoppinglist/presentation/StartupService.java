@@ -1,12 +1,6 @@
 package be.crydust.dukesshoppinglist.presentation;
 
 import be.crydust.dukesshoppinglist.business.shoppinglist.boundary.ItemListBoundary;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Item;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ItemList;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Unit;
-import java.util.Arrays;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -27,25 +21,28 @@ public class StartupService {
 
     @PostConstruct
     public void onStartup() {
+        
+        itemListboundary.deleteAllItemLists();
 
         log.trace("StartupService.onStartup");
-
-        itemListboundary.deleteAllItemLists();
-        ItemList list = new ItemList("list");
-        ProductType type = new ProductType("type");
-        Product product = new Product("product", type);
-        Unit unit = new Unit("unit");
-        Item item = new Item("5", unit, product);
-        list.setItems(Arrays.asList(item));
-        item.setItemList(list);
-        itemListboundary.saveItemList(list);
-
-        itemListboundary.saveItemList(ItemList.createItemList("list2", Arrays.asList(
-                new Item("1", new Unit("x"), new Product("Chicken", new ProductType("Meat"))),
-                new Item("25", new Unit("Kg"), new Product("Potatoes", new ProductType("Vegetables"))),
-                new Item("2", new Unit("bottles"), new Product("Wine", new ProductType("Beverages"))),
-                new Item("1", new Unit("loaf"), new Product("Bread", new ProductType("Other")))
-        )));
+        itemListboundary.createFromCsv("Grocery List", ""
+                + "2,x,Paprika (red),Vegetables\n"
+                + "200,g,Spinach,Vegetables\n"
+                + "10,x,Tomato,Vegetables\n"
+                + "1,x,Garlic,Vegetables\n"
+                + "1,x,Brussels sprout,Vegetables\n"
+                + "2,x,Avocado,Fruit\n"
+                + "2,x,Lemon,Fruit\n"
+                + "1,x,Grapes,Fruit\n"
+                + "2,x,Grapefruit (pink),Fruit\n"
+                + "2,x,Spirelli tricolore,Dry Goods & Grains\n"
+                + "1,x,Rosemary,Herbs\n"
+                + "1,x,Thyme,Herbs\n"
+                + "1,x,Wine (white dry),Drinks\n"
+                + "1,x,Fanta,Drinks\n"
+                + "1,l,Milk,Dairy\n"
+                + "12,x,Eggs,Dairy"
+        );
 
     }
 }

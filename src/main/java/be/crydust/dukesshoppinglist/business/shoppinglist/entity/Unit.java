@@ -14,7 +14,8 @@ import lombok.Setter;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = Unit.DELETE_ALL, query = "DELETE FROM Unit u")
+    @NamedQuery(name = Unit.DELETE_ALL, query = "DELETE FROM Unit u"),
+    @NamedQuery(name = Unit.FIND_BY_NAME, query = "SELECT u FROM Unit u WHERE u.name = :name")
 })
 @Getter
 @Setter
@@ -22,6 +23,7 @@ import lombok.Setter;
 public class Unit extends AbstractEntity {
 
     public static final String DELETE_ALL = "Unit.deleteAll";
+    public static final String FIND_BY_NAME = "Unit.findByName";
     
     @Column(unique = true)
     private String name;

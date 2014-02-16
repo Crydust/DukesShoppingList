@@ -29,7 +29,7 @@ public class ProductConverter implements Converter {
             return null;
         }
         try {
-            return productBoundary.findProductById(Long.valueOf(string));
+            return productBoundary.findById(Long.valueOf(string));
         } catch (NumberFormatException ex) {
             throw new ConverterException(ex);
         }

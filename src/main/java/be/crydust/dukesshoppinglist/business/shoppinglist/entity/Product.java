@@ -16,7 +16,8 @@ import lombok.Setter;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = Product.DELETE_ALL, query = "DELETE FROM Product p")
+    @NamedQuery(name = Product.DELETE_ALL, query = "DELETE FROM Product p"),
+    @NamedQuery(name = Product.FIND_BY_NAME, query = "SELECT p FROM Product p WHERE p.name = :name")
 })
 @Getter
 @Setter
@@ -24,6 +25,7 @@ import lombok.Setter;
 public class Product extends AbstractEntity {
 
     public static final String DELETE_ALL = "Product.deleteAll";
+    public static final String FIND_BY_NAME = "Product.findByName";
 
     public Product(String name, ProductType type) {
         this.name = name;
