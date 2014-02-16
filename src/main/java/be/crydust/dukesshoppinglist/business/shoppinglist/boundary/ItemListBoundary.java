@@ -76,6 +76,11 @@ public class ItemListBoundary implements Serializable {
         return list;
     }
 
+    public ItemList updateItemList(ItemList list) {
+        log.trace("updateItemList");
+        return em.merge(list);
+    }
+
     public ItemList findItemListById(Long id) {
         log.trace("findItemListById");
         // getReference doesnt retrieve items

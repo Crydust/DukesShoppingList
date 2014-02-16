@@ -57,8 +57,9 @@ public class ItemListBacking implements Serializable {
         // NOOP
     }
 
-    public void create() {
-//        postBoundary.create(getCurrentPost());
+    public void addItem() {
+//        currentItemList.getItems().add(currentItem);
+//        itemListBoundary.updateItemList(currentItemList);
     }
 
     public void delete(Long id) {

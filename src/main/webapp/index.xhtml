@@ -19,7 +19,6 @@
             .td-quantity, .td-unit {
                 text-align: right;
             }
-            
         </style>
     </h:head>
     <h:body>
@@ -47,7 +46,7 @@
                                      converter="#{productConverter}">
                         <f:selectItems value="#{itemListBacking.productSelectItems}"/>
                     </h:selectOneMenu>
-                    <h:commandButton action="#{itemListBacking.create()}"
+                    <h:commandButton action="#{itemListBacking.addItem()}"
                                      value="Add item to list" />
                 </p>
 
