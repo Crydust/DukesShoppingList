@@ -58,12 +58,8 @@ public class ItemListBacking implements Serializable {
     }
 
     public void addItem() {
-//        currentItemList.getItems().add(currentItem);
-//        itemListBoundary.updateItemList(currentItemList);
-    }
-
-    public void delete(Long id) {
-//        postBoundary.deleteById(id);
+        currentItemList = itemListBoundary.addItemToList(currentItemList, currentItem);
+        currentItem = new Item();
     }
 
     // Getters/setters

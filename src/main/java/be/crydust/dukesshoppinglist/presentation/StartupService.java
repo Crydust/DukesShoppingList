@@ -26,7 +26,7 @@ public class StartupService {
 
         log.trace("StartupService.onStartup");
         itemListboundary.createFromCsv("Grocery List", ""
-                + "2,x,Paprika (red),Vegetables\n"
+                + "1,x,Paprika (red),Vegetables\n"
                 + "200,g,Spinach,Vegetables\n"
                 + "10,x,Tomato,Vegetables\n"
                 + "1,x,Garlic,Vegetables\n"
@@ -42,6 +42,11 @@ public class StartupService {
                 + "1,x,Fanta,Drinks\n"
                 + "1,l,Milk,Dairy\n"
                 + "12,x,Eggs,Dairy"
+        );
+
+        log.trace("StartupService.onStartup");
+        itemListboundary.createFromCsv("Grocery List 2", ""
+                + "2,x,Paprika (red),Vegetables"
         );
 
     }

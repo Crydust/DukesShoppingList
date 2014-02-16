@@ -76,6 +76,27 @@ public class ItemListBoundary implements Serializable {
         return list;
     }
 
+    public ItemList addItemToList(ItemList list, Item item) {
+        log.trace("*** addItemToList");
+        if (!em.contains(list)) {
+        log.trace("list = em.merge(list);");
+            list = em.merge(list);
+        }
+        log.trace("item.setItemList(list);");
+        item.setItemList(list);
+        if (!em.contains(item)) {
+        log.trace("em.persist(item);");
+            em.persist(item);
+        }
+        log.trace("list.getItems().add(item);");
+        list.getItems().add(item);
+        log.trace("em.merge(list);");
+        em.merge(list);
+        em.flush();
+        em.refresh(list);
+        return list;
+    }
+    
     public ItemList updateItemList(ItemList list) {
         log.trace("updateItemList");
         return em.merge(list);

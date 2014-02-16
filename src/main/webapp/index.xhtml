@@ -24,60 +24,62 @@
     <h:body>
         <h1>DukesShoppingList</h1>
 
-        <h:form>
-            <ui:repeat value="#{itemListBacking.itemLists}" var="itemList">
+        <h:form id="indexForm">
+            <ui:repeat value="#{itemListBacking.itemLists}" var="itemList" varStatus="itemListStatus">
+                <h:outputText rendered="#{not itemListStatus.first}" value=" | "/>
                 <h:link includeViewParams="true">
                     <h:outputText value="#{itemList.name}" />
                     <f:param name="list" value="#{itemList.id}"/>
                 </h:link>
             </ui:repeat>
-            
-            <h:panelGroup rendered="#{not empty itemListBacking.currentItemList}">
-                <p>
-                    <h:inputText id="quantity" label="quantity" value="#{itemListBacking.currentItem.quantity}" />
-                    <h:selectOneMenu value="#{itemListBacking.currentItem.unit}"
-                                     converter="#{unitConverter}">
-                        <f:selectItems value="#{itemListBacking.unitSelectItems}"
-                                       var="unitSelectItem"
-                                       itemValue="#{unitSelectItem}"
-                                       itemLabel="#{unitSelectItem.name}"/>
-                    </h:selectOneMenu>
-                    <h:selectOneMenu value="#{itemListBacking.currentItem.product}"
-                                     converter="#{productConverter}">
-                        <f:selectItems value="#{itemListBacking.productSelectItems}"/>
-                    </h:selectOneMenu>
-                    <h:commandButton action="#{itemListBacking.addItem()}"
-                                     value="Add item to list" />
-                </p>
 
-                <h:dataTable value="#{itemListBacking.currentItemList.items}" var="item" columnClasses="td-quantity,td-unit,td-product,td-type">
-                    <f:facet name="caption">#{itemListBacking.currentItemList.name}</f:facet>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Quantity"/>
-                        </f:facet>
-                        <h:outputText value="#{item.quantity}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Unit"/>
-                        </f:facet>
-                        <h:outputText value="#{item.unit.name}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Product"/>
-                        </f:facet>
-                        <h:outputText value="#{item.product.name}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Type"/>
-                        </f:facet>
-                        <h:outputText value="#{item.product.type.name}"/>
-                    </h:column>
-                </h:dataTable>
-            </h:panelGroup>
+            <p>
+                <h:inputText id="quantity" label="quantity" value="#{itemListBacking.currentItem.quantity}" />
+                <h:selectOneMenu id="unit"
+                                 value="#{itemListBacking.currentItem.unit}"
+                                 converter="#{unitConverter}">
+                    <f:selectItems value="#{itemListBacking.unitSelectItems}"
+                                   var="unitSelectItem"
+                                   itemValue="#{unitSelectItem}"
+                                   itemLabel="#{unitSelectItem.name}"/>
+                </h:selectOneMenu>
+                <h:selectOneMenu id="product"
+                                 value="#{itemListBacking.currentItem.product}"
+                                 converter="#{productConverter}">
+                    <f:selectItems value="#{itemListBacking.productSelectItems}"/>
+                </h:selectOneMenu>
+                <h:commandButton id="addItem"
+                                 action="#{itemListBacking.addItem()}"
+                                 value="Add item to list" />
+            </p>
+
+            <h:dataTable value="#{itemListBacking.currentItemList.items}" var="item" columnClasses="td-quantity,td-unit,td-product,td-type">
+                <f:facet name="caption">#{itemListBacking.currentItemList.name}</f:facet>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Quantity"/>
+                    </f:facet>
+                    <h:outputText value="#{item.quantity}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Unit"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unit.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Product"/>
+                    </f:facet>
+                    <h:outputText value="#{item.product.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Type"/>
+                    </f:facet>
+                    <h:outputText value="#{item.product.type.name}"/>
+                </h:column>
+            </h:dataTable>
 
         </h:form>
     </h:body>
