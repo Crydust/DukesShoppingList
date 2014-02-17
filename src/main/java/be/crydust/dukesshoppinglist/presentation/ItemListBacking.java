@@ -74,7 +74,7 @@ public class ItemListBacking implements Serializable {
     // Getters/setters
     public List<ItemList> getItemLists() {
         if (itemLists == null) {
-            itemLists = itemListBoundary.findAllItemLists();
+            itemLists = itemListBoundary.findAll();
         }
         return itemLists;
     }

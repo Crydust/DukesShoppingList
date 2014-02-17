@@ -31,7 +31,7 @@ public class ItemListConverter implements Converter {
         try {
             log.trace("string = {}", string);
             log.trace("itemListBoundary = {}", itemListBoundary);
-            return itemListBoundary.findItemListById(Long.valueOf(string));
+            return itemListBoundary.find(Long.valueOf(string));
         } catch (NumberFormatException ex) {
             throw new ConverterException(ex);
         }

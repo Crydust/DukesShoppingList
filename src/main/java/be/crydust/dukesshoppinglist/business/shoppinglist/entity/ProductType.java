@@ -15,7 +15,8 @@ import lombok.Setter;
 @Entity
 @NamedQueries({
     @NamedQuery(name = ProductType.DELETE_ALL, query = "DELETE FROM ProductType t"),
-    @NamedQuery(name = ProductType.FIND_BY_NAME, query = "SELECT t FROM ProductType t WHERE t.name = :name")
+    @NamedQuery(name = ProductType.FIND_BY_NAME, query = "SELECT t FROM ProductType t WHERE t.name = :name"),
+    @NamedQuery(name = ProductType.FIND_ALL, query = "SELECT t FROM ProductType t ORDER BY t.name")
 })
 @Getter
 @Setter
@@ -24,6 +25,7 @@ public class ProductType extends AbstractEntity {
 
     public static final String DELETE_ALL = "ProductType.deleteAll";
     public static final String FIND_BY_NAME = "ProductType.findByName";
+    public static final String FIND_ALL = "ProductType.findAll";
 
     public ProductType(String name) {
         this.name = name;

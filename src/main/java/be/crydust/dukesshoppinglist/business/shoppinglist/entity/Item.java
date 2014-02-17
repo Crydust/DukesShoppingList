@@ -19,8 +19,7 @@ import lombok.Setter;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = Item.DELETE_ALL, query = "DELETE FROM Item i"),
-    @NamedQuery(name = Item.DELETE_BY_ID, query = "DELETE FROM Item i WHERE i.id = :id")
+    @NamedQuery(name = Item.DELETE_ALL, query = "DELETE FROM Item i")
 })
 @Getter
 @Setter
@@ -28,7 +27,6 @@ import lombok.Setter;
 public class Item extends AbstractEntity {
 
     public static final String DELETE_ALL = "Item.deleteAll";
-    public static final String DELETE_BY_ID = "Item.deleteById";
 
     public Item(String quantity, Unit unit, Product product) {
         this.quantity = quantity;

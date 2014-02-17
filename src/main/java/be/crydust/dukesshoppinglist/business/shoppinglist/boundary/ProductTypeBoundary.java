@@ -1,18 +1,12 @@
 package be.crydust.dukesshoppinglist.business.shoppinglist.boundary;
 
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product;
+import be.crydust.dukesshoppinglist.business.shoppinglist.control.CrudService;
+import be.crydust.dukesshoppinglist.business.shoppinglist.control.QueryParameter;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType_;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,34 +17,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProductTypeBoundary implements Serializable {
 
-    @PersistenceContext
-    EntityManager em;
+    @Inject
+    CrudService crudService;
 
+    @SuppressWarnings("unchecked")
     public List<ProductType> findAll() {
-        log.trace("findAll");
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<ProductType> cq = cb.createQuery(ProductType.class);
-        Root<ProductType> productTypeRoot = cq.from(ProductType.class);
-        cq.distinct(true);
-        cq.select(productTypeRoot);
-        cq.orderBy(cb.asc(productTypeRoot.get(ProductType_.name)));
-        TypedQuery<ProductType> q = em.createQuery(cq);
-        return q.getResultList();
+        return (List<ProductType>) crudService.findWithNamedQuery(ProductType.FIND_ALL);
     }
 
-    public ProductType findById(Long id) {
-        log.trace("findById");
-        return em.getReference(ProductType.class, id);
+    public ProductType find(Long id) {
+        return crudService.find(ProductType.class, id);
     }
 
     public ProductType findByName(String name) {
-        log.trace("findByName");
-        try {
-            return em.createNamedQuery(ProductType.FIND_BY_NAME, ProductType.class)
-                    .setParameter("name", name)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
+        List<?> productTypes = crudService.findWithNamedQuery(
+                ProductType.FIND_BY_NAME,
+                QueryParameter.with("name", name).parameters());
+        ProductType productType = null;
+        if (!productTypes.isEmpty()) {
+            productType = (ProductType) productTypes.get(0);
         }
+        return productType;
     }
 }

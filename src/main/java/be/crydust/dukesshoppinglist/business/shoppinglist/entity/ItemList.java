@@ -20,7 +20,8 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = ItemList.DELETE_ALL, query = "DELETE FROM ItemList l")
+    @NamedQuery(name = ItemList.DELETE_ALL, query = "DELETE FROM ItemList l"),
+    @NamedQuery(name = ItemList.FIND_ALL, query = "SELECT l FROM ItemList l ORDER BY l.updated DESC")
 })
 @Getter
 @Setter
@@ -28,6 +29,7 @@ import lombok.NoArgsConstructor;
 public class ItemList extends AbstractEntity {
 
     public static final String DELETE_ALL = "ItemList.deleteAll";
+    public static final String FIND_ALL = "ItemList.findAll";
 
     public ItemList(String name) {
         this.name = name;

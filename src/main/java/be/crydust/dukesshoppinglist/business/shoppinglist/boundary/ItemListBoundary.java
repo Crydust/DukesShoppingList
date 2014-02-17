@@ -1,12 +1,10 @@
 package be.crydust.dukesshoppinglist.business.shoppinglist.boundary;
 
+import be.crydust.dukesshoppinglist.business.shoppinglist.control.CrudService;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Item;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ItemList;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ItemList_;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Item_;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.ProductType;
-import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Product_;
 import be.crydust.dukesshoppinglist.business.shoppinglist.entity.Unit;
 import com.google.common.base.Splitter;
 import java.io.Serializable;
@@ -17,12 +15,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Fetch;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,26 +33,17 @@ public class ItemListBoundary implements Serializable {
     ProductBoundary productBoundary;
     @Inject
     ProductTypeBoundary productTypeBoundary;
+    @Inject
+    ItemBoundary itemBoundary;
+    @Inject
+    CrudService crudService;
 
-    public List<ItemList> findAllItemLists() {
-        log.trace("findAllItemLists");
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<ItemList> cq = cb.createQuery(ItemList.class);
-        Root<ItemList> shoppingListRoot = cq.from(ItemList.class);
-        cq.distinct(true);
-        cq.select(shoppingListRoot);
-        Fetch<ItemList, Item> shoppingListItemPath
-                = shoppingListRoot.fetch(ItemList_.items, JoinType.INNER);
-        Fetch<Item, Product> productPath
-                = shoppingListItemPath.fetch(Item_.product, JoinType.INNER);
-        shoppingListItemPath.fetch(Item_.unit, JoinType.INNER);
-        productPath.fetch(Product_.type, JoinType.INNER);
-        TypedQuery<ItemList> q = em.createQuery(cq);
-        return q.getResultList();
+    @SuppressWarnings("unchecked")
+    public List<ItemList> findAll() {
+        return (List<ItemList>) crudService.findWithNamedQuery(ItemList.FIND_ALL);
     }
 
-    public void deleteAllItemLists() {
-        log.trace("deleteAllItemLists");
+    public void deleteAll() {
         em.createNamedQuery(Item.DELETE_ALL).executeUpdate();
         em.createNamedQuery(ItemList.DELETE_ALL).executeUpdate();
         em.createNamedQuery(Product.DELETE_ALL).executeUpdate();
@@ -68,16 +51,7 @@ public class ItemListBoundary implements Serializable {
         em.createNamedQuery(ProductType.DELETE_ALL).executeUpdate();
     }
 
-    public ItemList saveItemList(ItemList list) {
-        log.trace("saveItemList");
-        em.persist(list);
-        em.flush();
-        em.refresh(list);
-        return list;
-    }
-
     public ItemList addItemToList(ItemList list, Item item) {
-        log.trace("addItemToList");
         list = em.merge(list);
         item.setItemList(list);
         em.persist(item);
@@ -89,26 +63,17 @@ public class ItemListBoundary implements Serializable {
     }
 
     public ItemList removeItemFromList(ItemList list, Item item) {
-        log.trace("removeItemFromList");
-//        Item itemReference = em.getReference(Item.class, item.getId());
-//        em.remove(itemReference);
-        em.createNamedQuery(Item.DELETE_BY_ID)
-                .setParameter("id", item.getId())
-                .executeUpdate();
+        itemBoundary.delete(item.getId());
         list.getItems().remove(item);
-        return list;
+        return crudService.update(list);
     }
 
-    public ItemList updateItemList(ItemList list) {
-        log.trace("updateItemList");
-        return em.merge(list);
+    public ItemList update(ItemList list) {
+        return crudService.update(list);
     }
 
-    public ItemList findItemListById(Long id) {
-        log.trace("findItemListById");
-        // getReference doesnt retrieve items
-        //return em.getReference(ItemList.class, id);
-        return em.find(ItemList.class, id);
+    public ItemList find(Long id) {
+        return crudService.find(ItemList.class, id);
     }
 
     public ItemList createFromCsv(String name, String csv) {
@@ -148,6 +113,6 @@ public class ItemListBoundary implements Serializable {
         ItemList list = new ItemList(name);
         list.setItems(items);
         log.trace("before save");
-        return saveItemList(list);
+        return crudService.create(list);
     }
 }

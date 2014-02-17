@@ -22,7 +22,7 @@ public class StartupService {
     @PostConstruct
     public void onStartup() {
         
-        itemListboundary.deleteAllItemLists();
+        itemListboundary.deleteAll();
 
         log.trace("StartupService.onStartup");
         itemListboundary.createFromCsv("Grocery List", ""
