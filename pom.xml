@@ -9,10 +9,6 @@
 
     <name>DukesShoppingList</name>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    
     <dependencies>
         <!-- tomee -->
         <dependency>
@@ -25,13 +21,13 @@
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
-            <version>2.1.10</version>
+            <version>${myfaces.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-impl</artifactId>
-            <version>2.1.10</version>
+            <version>${myfaces.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- jsf utilities -->
@@ -68,7 +64,25 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.6</version>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+            <scope>test</scope>
         </dependency>
         <!-- test -->
         <dependency>
@@ -92,8 +106,24 @@
         <dependency>
             <groupId>org.apache.openjpa</groupId>
             <artifactId>openjpa</artifactId>
-            <version>2.2.2</version>
+            <version>${openjpa.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>openejb-core</artifactId>
+            <version>4.6.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.openjpa</groupId>
+                    <artifactId>openjpa</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-jdk14</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     
@@ -149,25 +179,94 @@
                     <dependency>
                         <groupId>org.apache.openjpa</groupId>
                         <artifactId>openjpa</artifactId>
-                        <version>2.2.2</version>
+                        <version>${openjpa.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
             <plugin>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa-maven-plugin</artifactId>
+                <version>${openjpa.version}</version>
+                <configuration>
+                    <includes>**/entity/*.class</includes>
+                    <excludes>**/entity/XML*.class</excludes>
+                    <addDefaultConstructor>true</addDefaultConstructor>               
+                    <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>enhancer</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa</artifactId>
+                        <version>${openjpa.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.16</version>
+                <configuration>
+                    <workingDirectory>${project.build.directory}</workingDirectory>
+                    <systemPropertyVariables>
+                        <javax.persistence.provider>${javax.persistence.provider}</javax.persistence.provider>
+                        <openejb.log.factory>slf4j</openejb.log.factory>
+                        <java.util.logging.config.file>${project.basedir}/src/main/resources/logging.properties</java.util.logging.config.file>
+                        <logback.configurationFile>${project.basedir}/src/test/resources/logback-test.xml</logback.configurationFile>
+                        <openejb.classloader.forced-skip>org.xml.sax</openejb.classloader.forced-skip>
+                    </systemPropertyVariables>
+                    <excludes>
+                        <exclude>**/IT*.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.16</version>
+                <executions>
+                    <execution>
+                        <id>integration-tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <workingDirectory>${project.build.directory}</workingDirectory>
+                            <systemPropertyVariables>
+                                <javax.persistence.provider>${javax.persistence.provider}</javax.persistence.provider>
+                                <openejb.log.factory>slf4j</openejb.log.factory>
+                                <java.util.logging.config.file>${project.basedir}/src/main/resources/logging.properties</java.util.logging.config.file>
+                                <logback.configurationFile>${project.basedir}/src/test/resources/logback-test.xml</logback.configurationFile>
+                                <openejb.classloader.forced-skip>org.xml.sax</openejb.classloader.forced-skip>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.openejb.maven</groupId>
                 <artifactId>tomee-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <version>${tomee.version}</version>
                 <configuration>
-                    <tomeeVersion>1.6.0</tomeeVersion>
+                    <tomeeVersion>${tomee.version}</tomeeVersion>
                     <tomeeClassifier>webprofile</tomeeClassifier>
                     <zip>false</zip>
                     <classpaths>
                         <classpath>${project.build.directory}/apache-tomee/conf/logback-config</classpath>
-                        <classpath>${project.build.directory}/apache-tomee/lib/slf4j-api-1.7.6.jar</classpath>
-                        <classpath>${project.build.directory}/apache-tomee/lib/jul-to-slf4j-1.7.6.jar</classpath>
-                        <classpath>${project.build.directory}/apache-tomee/lib/jcl-over-slf4j-1.7.6.jar</classpath>
-                        <classpath>${project.build.directory}/apache-tomee/lib/logback-core-1.1.0.jar</classpath>
-                        <classpath>${project.build.directory}/apache-tomee/lib/logback-classic-1.1.0.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/slf4j-api-${slf4j.version}.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/jul-to-slf4j-${slf4j.version}.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/jcl-over-slf4j-${slf4j.version}.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/logback-core-${logback.version}.jar</classpath>
+                        <classpath>${project.build.directory}/apache-tomee/lib/logback-classic-${logback.version}.jar</classpath>
                     </classpaths>
                     <systemVariables>
                         <file.encoding>UTF-8</file.encoding>
@@ -178,11 +277,11 @@
                     </systemVariables>
                     <libs>
                         <!-- logging -->
-                        <lib>org.slf4j:slf4j-api:1.7.6</lib>
-                        <lib>org.slf4j:jcl-over-slf4j:1.7.6</lib>
-                        <lib>org.slf4j:jul-to-slf4j:1.7.6</lib>
-                        <lib>ch.qos.logback:logback-classic:1.1.0</lib>
-                        <lib>ch.qos.logback:logback-core:1.1.0</lib>
+                        <lib>org.slf4j:slf4j-api:${slf4j.version}</lib>
+                        <lib>org.slf4j:jcl-over-slf4j:${slf4j.version}</lib>
+                        <lib>org.slf4j:jul-to-slf4j:${slf4j.version}</lib>
+                        <lib>ch.qos.logback:logback-classic:${logback.version}</lib>
+                        <lib>ch.qos.logback:logback-core:${logback.version}</lib>
                         <!-- remove unused -->
                         <lib>remove:slf4j-jdk14</lib>
                         <lib>remove:slf4j-api-1.7.2</lib>
@@ -191,7 +290,6 @@
                     <synchronization>
                         <extensions>
                             <extension>.class</extension>
-                            <!--<extension>.xhtml</extension>-->
                         </extensions>
                         <updateOnlyExtensions>
                             <updateOnlyExtension>.xhtml</updateOnlyExtension>
@@ -204,4 +302,16 @@
             </plugin>
         </plugins>
     </build>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <javax.persistence.provider>org.apache.openjpa.persistence.PersistenceProviderImpl</javax.persistence.provider>
+        <logback.version>1.1.1</logback.version>
+        <slf4j.version>1.7.6</slf4j.version>
+        <openjpa.version>2.3.0</openjpa.version>
+        <myfaces.version>2.1.10</myfaces.version>
+        <tomee.version>1.6.0</tomee.version>
+    </properties>
+    
 </project>
