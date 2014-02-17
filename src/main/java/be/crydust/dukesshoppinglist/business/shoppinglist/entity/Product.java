@@ -26,6 +26,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Product extends AbstractEntity {
 
+    private static final long serialVersionUID = 1L;
+
     public static final String DELETE_ALL = "Product.deleteAll";
     public static final String FIND_BY_NAME = "Product.findByName";
     public static final String FIND_ALL = "Product.findAll";

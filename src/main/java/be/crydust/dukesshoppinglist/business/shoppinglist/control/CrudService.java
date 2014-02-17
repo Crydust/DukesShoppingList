@@ -40,6 +40,8 @@ import javax.persistence.Query;
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class CrudService implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @PersistenceContext
     transient EntityManager em;
 

@@ -29,6 +29,8 @@ import org.omnifaces.cdi.ViewScoped;
 @Slf4j
 public class ItemListBacking implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     // Properties
     List<ItemList> itemLists = null;
     List<Unit> units = null;

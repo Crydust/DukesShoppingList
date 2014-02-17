@@ -23,6 +23,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Unit extends AbstractEntity {
 
+    private static final long serialVersionUID = 1L;
+
     public static final String DELETE_ALL = "Unit.deleteAll";
     public static final String FIND_BY_NAME = "Unit.findByName";
     public static final String FIND_ALL = "Unit.findAll";

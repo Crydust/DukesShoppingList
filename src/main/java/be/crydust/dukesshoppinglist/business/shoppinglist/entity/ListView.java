@@ -25,7 +25,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ListView extends AbstractEntity {
-    
+
+    private static final long serialVersionUID = 1L;
+
     public static final String DELETE_ALL = "ListView.deleteAll";
 
     public ListView(String name) {

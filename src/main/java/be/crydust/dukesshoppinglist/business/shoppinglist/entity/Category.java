@@ -26,6 +26,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Category extends AbstractEntity {
 
+    private static final long serialVersionUID = 1L;
+
     public static final String DELETE_ALL = "Category.deleteAll";
 
     public Category(String name) {
