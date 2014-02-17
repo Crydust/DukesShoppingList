@@ -13,19 +13,19 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.extern.slf4j.Slf4j;
+import org.omnifaces.cdi.ViewScoped;
 
 /**
  *
  * @author kristof
  */
 @Named
-@SessionScoped
+@ViewScoped
 @Slf4j
 public class ItemListBacking implements Serializable {
 
@@ -57,6 +57,7 @@ public class ItemListBacking implements Serializable {
     }
 
     public String addItem() {
+        log.trace("addItem");
         currentItemList = itemListBoundary.addItemToList(currentItemList, currentItem);
         currentItem = new Item();
         currentItem.setQuantity("1");

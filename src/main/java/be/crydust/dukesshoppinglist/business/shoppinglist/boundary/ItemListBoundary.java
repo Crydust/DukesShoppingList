@@ -78,13 +78,9 @@ public class ItemListBoundary implements Serializable {
 
     public ItemList addItemToList(ItemList list, Item item) {
         log.trace("addItemToList");
-        if (!em.contains(list)) {
-            list = em.merge(list);
-        }
+        list = em.merge(list);
         item.setItemList(list);
-        if (!em.contains(item)) {
-            em.persist(item);
-        }
+        em.persist(item);
         list.getItems().add(item);
         list = em.merge(list);
         em.flush();
@@ -94,17 +90,12 @@ public class ItemListBoundary implements Serializable {
 
     public ItemList removeItemFromList(ItemList list, Item item) {
         log.trace("removeItemFromList");
-        if (!em.contains(list)) {
-            list = em.merge(list);
-        }
-        if (!em.contains(item)) {
-            item = em.merge(item);
-        }
+//        Item itemReference = em.getReference(Item.class, item.getId());
+//        em.remove(itemReference);
+        em.createNamedQuery(Item.DELETE_BY_ID)
+                .setParameter("id", item.getId())
+                .executeUpdate();
         list.getItems().remove(item);
-        list = em.merge(list);
-        em.remove(item);
-        em.flush();
-        em.refresh(list);
         return list;
     }
 
